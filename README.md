@@ -1,39 +1,86 @@
-# Java-8-Features
-The Stream API was introduced in Java 8. It's used to process collections (like List, Set) in a functional and efficient way.
+# Java 8 Features
 
-Stream Workflow
-Stream works like a pipeline:
-1. Create a stream
-2. Apply intermediate operations (like filter, map, etc.)
-3. End with a terminal operation (like collect, forEach, count)
-In Short:
-Intermediate operations are like filters and transformers — they return streams and can be chained. 
-Terminal operations are the final steps — they end the chain and return a result (like a value, collection, or perform an action).
+This repository provides a detailed explanation of Java 8 features such as Lambda Expressions, Method References, Stream API, Functional Interfaces, and more.
 
-Intermediate vs Terminal Operations
-1. Intermediate	- Returns a stream again	
-filter() – used to include only those elements that match a condition.
-map() – transforms each element, like squaring numbers or converting them to strings.
-flatMap() – used when elements themselves are collections; it flattens them into a single stream.
-distinct() – removes duplicate elements from the stream.
-sorted() – sorts elements in natural order.
-sorted(Comparator) – sorts using a custom comparison logic.
-limit(n) – restricts the stream to the first n elements.
-skip(n) – skips the first n elements of the stream.
-peek() – mainly used for debugging; allows looking at elements without consuming the stream.
+---
 
-Note : These operations are chainable, meaning you can perform multiple transformations one after the other, 
-and  Intermediate methods are lazy — they don’t execute until a terminal method is called.
+## Stream API Overview
 
-2. Terminal - Ends the stream pipeline, gives a result	
-collect() – gathers the elements into a collection like a List, Set, or Map.
-forEach() – performs an action like printing or saving for each element in the stream.
-count() – returns the number of elements in the stream.
-reduce() – combines all elements using an operation (like sum or product) and returns a single value.
-toArray() – converts the stream elements into an array.
-min() and max() – find the minimum or maximum element using a comparator.
-anyMatch() – returns true if any element matches a given condition.
-allMatch() – returns true if all elements match a condition.
-noneMatch() – returns true if no element matches the condition.
-findFirst() – returns the first element in the stream (as an Optional).
-findAny() – returns any one element, useful for parallel streams.
+The **Stream API** was introduced in Java 8 to process collections (like `List`, `Set`) in a functional and efficient way.
+
+---
+
+### Stream Workflow
+
+Streams operate like a pipeline with the following steps:
+
+1. **Create a stream**
+2. **Apply intermediate operations** (e.g., `filter`, `map`)
+3. **End with a terminal operation** (e.g., `collect`, `forEach`, `count`)
+
+---
+
+### Key Concepts
+
+- **Intermediate operations:** Transform or filter data. They return a stream and are chainable. These operations are lazy—they don’t execute until a terminal operation is called.
+- **Terminal operations:** Produce a result or a side-effect, ending the pipeline.
+
+---
+
+## Intermediate vs Terminal Operations
+
+### Intermediate Operations
+
+_Return a stream and can be chained. These are lazy and only execute when a terminal operation is present._
+
+- `filter()` – Includes only elements matching a condition
+- `map()` – Transforms each element (e.g., squaring numbers, converting types)
+- `flatMap()` – Flattens nested collections into a single stream
+- `distinct()` – Removes duplicate elements
+- `sorted()` – Sorts elements in natural order
+- `sorted(Comparator)` – Sorts using custom logic
+- `limit(n)` – Limits the stream to the first n elements
+- `skip(n)` – Skips the first n elements
+- `peek()` – Used for debugging; inspects elements without consuming the stream
+
+**Note:** Intermediate methods are chainable and lazy.
+
+---
+
+### Terminal Operations
+
+_End the stream pipeline and produce a result._
+
+- `collect()` – Gathers elements into a collection (e.g., `List`, `Set`, `Map`)
+- `forEach()` – Performs an action for each element (e.g., printing)
+- `count()` – Returns the number of elements
+- `reduce()` – Combines elements using an operation (sum, product, etc.) to return a single value
+- `toArray()` – Converts stream elements to an array
+- `min()`, `max()` – Finds the minimum or maximum element using a comparator
+- `anyMatch()` – Returns `true` if any element matches a condition
+- `allMatch()` – Returns `true` if all elements match a condition
+- `noneMatch()` – Returns `true` if no elements match a condition
+- `findFirst()` – Returns the first element (as an `Optional`)
+- `findAny()` – Returns any one element (useful in parallel streams)
+
+---
+
+## Example: Stream Usage in Java
+
+```java
+import java.util.Arrays;
+import java.util.List;
+
+public class StreamExample {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
+
+        // Filter even numbers, square them, and collect to a list
+        List<Integer> squaredEvens = numbers.stream()
+            .filter(n -> n % 2 == 0)    // Intermediate: keep even numbers
+            .map(n -> n * n)            // Intermediate: square each
+            .collect(Collectors.toList()); // Terminal: collect results
+
+        System.out.println(squaredEvens); // Output: [4, 16, 36, 64, 100]
+    }
+}
